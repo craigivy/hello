@@ -8,5 +8,21 @@ go run main.go
 ```
 docker build -t hello . 
 docker run --rm -p 8080:8080 -d hello 
-curl -H "provider: google" localhost:8080
+curl -H "provider: google" localhost:8080/hello
+```
+
+```
+docker build -t us-central1-docker.pkg.dev/saas-multitenant-demo/docker-rep/hello .
+docker push us-central1-docker.pkg.dev/saas-multitenant-demo/docker-rep/hello
+
+docker build -t us-central1-docker.pkg.dev/ivy-15-project/docker-repo/hello .
+docker push us-central1-docker.pkg.dev/ivy-15-project/docker-repo/hello
+
+docker pull us-central1-docker.pkg.dev/ivy-15-project/docker-repo/hello:latest
+```
+
+```
+kubectl apply -k k8s
+ENDPOINT=$(kubectl get svc hello | grep -v EXTERNAL-IP | awk '{ print $4}')
+curl -H "provider: google" $ENDPOINT/hello
 ```
