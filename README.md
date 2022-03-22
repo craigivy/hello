@@ -17,6 +17,8 @@ curl -H "provider: google" localhost:8080/hello
 ## Deploy to kubernetes (assumes use of existing kubernetes cluster)
 ```
 kubectl create namespace app
+git clone https://github.com/craigivy/hello.git
+cd hello
 kubectl -n app apply -k k8s
 ENDPOINT=$(kubectl -n app get svc hello | grep -v EXTERNAL-IP | awk '{ print $4}')
 curl -H "provider: google" $ENDPOINT/hello
